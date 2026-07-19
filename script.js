@@ -56,13 +56,38 @@ document.querySelectorAll('.faq-item').forEach(item => {
    ========================================================================== */
 
 // Header berubah saat di-scroll
-const siteHeader = document.querySelector('header');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 10) {
-    siteHeader.classList.add('scrolled');
-  } else {
-    siteHeader.classList.remove('scrolled');
-  }
+const siteHeader = document.querySelector("header");
+
+let lastScroll = 0;
+const scrollThreshold = 20;
+
+window.addEventListener("scroll", () => {
+
+    const currentScroll = window.scrollY;
+
+    if (currentScroll > 10) {
+        siteHeader.classList.add("scrolled");
+    } else {
+        siteHeader.classList.remove("scrolled");
+    }
+
+    if (currentScroll <= 80) {
+        siteHeader.classList.remove("hide");
+        lastScroll = currentScroll;
+        return;
+    }
+
+    if (Math.abs(currentScroll - lastScroll) < scrollThreshold) {
+        return;
+    }
+
+    if (currentScroll > lastScroll) {
+        siteHeader.classList.add("hide");
+    } else {
+        siteHeader.classList.remove("hide");
+    }
+
+    lastScroll = currentScroll;
 });
 
 // Tandai elemen-elemen yang akan muncul dengan animasi saat di-scroll
